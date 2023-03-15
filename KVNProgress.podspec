@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, '7.0'
   s.source = {
-    :git => "https://github.com/kevin-hirsch/KVNProgress.git",
+    :git => "https://github.com/AlanSolanoCampos/KVNProgress",
     :tag => s.version.to_s
   }
 
