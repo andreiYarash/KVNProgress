@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name         = "KVNProgressLiver"
+  s.name         = "KVNProgress"
   s.version      = "1.0.0"
   s.summary      = "A full screen progress view for iOS 7"
 
