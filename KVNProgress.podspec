@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '7.0'
   s.source = {
     :git => "https://github.com/AlanSolanoCampos/KVNProgress",
-    :tag => s.version.to_s
+    :tag => "#{s.version}"
   }
 
   s.source_files  = "KVNProgress/Classes", "KVNProgress/Classes/**/*.{h,m}", "KVNProgress/Categories", "KVNProgress/Categories/**/*.{h,m}"
