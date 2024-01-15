@@ -560,33 +560,35 @@ static KVNProgressConfiguration *configuration;
 
 + (void)endDismissWithCompletion:(KVNCompletionBlock)completion
 {
-	KVNProgress *progressView = [self sharedView];
-	
-	if (progressView.state == KVNProgressStateDismissing) {
-		[self sharedView].state = KVNProgressStateHidden;
+    KVNProgress *progressView = [self sharedView];
+    
+    if (progressView.state == KVNProgressStateDismissing) {
+        [self sharedView].state = KVNProgressStateHidden;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            progressView.accessibilityView.isAccessibilityElement = NO;
+            progressView.accessibilityView.accessibilityLabel = nil;
+            
+            [progressView cancelCircleAnimation];
+            [progressView removeFromSuperview];
+        });
+        progressView.style = KVNProgressStyleHidden;
 
-		progressView.accessibilityView.isAccessibilityElement = NO;
-		progressView.accessibilityView.accessibilityLabel = nil;
-
-		[progressView cancelCircleAnimation];
-		[progressView removeFromSuperview];
-
-		progressView.style = KVNProgressStyleHidden;
-
-		if (!progressView.progressWindow.hidden) {
-			progressView.progressWindow.hidden = YES;
-			[progressView.originalKeyWindow makeKeyAndVisible];
-		}
-		
-		[UIApplication sharedApplication].statusBarStyle = [self sharedView].rootControllerStatusBarStyle;
-		UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil);
-	}
-	
-	if (completion) {
-		dispatch_async(dispatch_get_main_queue(), ^{
-			completion();
-		});
-	}
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!progressView.progressWindow.hidden) {
+                progressView.progressWindow.hidden = YES;
+                [progressView.originalKeyWindow makeKeyAndVisible];
+            }
+            
+            [UIApplication sharedApplication].statusBarStyle = [self sharedView].rootControllerStatusBarStyle;
+            UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil);
+        });
+    }
+    
+    if (completion) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion();
+        });
+    }
 }
 
 #pragma mark - UI
